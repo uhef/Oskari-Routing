@@ -15,3 +15,5 @@ transport.log
 /standalone-jetty/dist/public/oskari
 /standalone-jetty/dist/public/Oskari
 /bin/
+oskaridb/
+tieviivat/
