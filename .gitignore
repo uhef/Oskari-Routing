@@ -17,3 +17,5 @@ transport.log
 /bin/
 oskaridb/
 tieviivat/
+elf-jetty/dist
+standalone-jetty/dist
