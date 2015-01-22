@@ -119,7 +119,7 @@ public class DBHandler {
     }
 
     private static String getProperty(final String key) {
-        return firstNonNull(PropertyUtil.getOptional(key), System.getProperty(key));
+        return firstNonNull(System.getProperty(key), PropertyUtil.getOptional(key));
     }
 
     private static String firstNonNull(final String ... strings) {
