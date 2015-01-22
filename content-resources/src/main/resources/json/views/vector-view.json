@@ -70,6 +70,7 @@
         { "id" : "layerselection2" },
         { "id" : "coordinatedisplay" },
         { "id" : "metadataflyout" },
-        { "id" : "featuredata2" }
+        { "id" : "featuredata2" },
+        { "id" : "inapprouting" }
     ]
 }

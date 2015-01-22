@@ -1,0 +1,13 @@
+{
+    "bundles" : {
+        "framework" : [
+            "register-inapprouting-bundle.sql"
+        ],
+        "integration" : [
+        ],
+        "catalogue" : [
+        ],
+        "admin" : [
+        ]
+    }
+}

@@ -2,6 +2,7 @@
     "setup" : [
         "create-empty-db",
         "register-bundles",
+        "register-inapprouting-bundle",
         "postgres-add-myplaces",
         "postgres-add-users",
         "postgres-add-JAAS",
