@@ -19,3 +19,7 @@ oskaridb/
 tieviivat/
 elf-jetty/dist
 standalone-jetty/dist
+service-feature-engine
+standalone-jetty/dump.rdb
+webapp-transport/dump.rdb
+
