@@ -20,3 +20,9 @@ Import `legacy_gist.sql` to PostgreSQL. Something along these lines:
 `psql -d oskaridb -f /usr/share/postgresql/9.1/contrib/postgis-2.1/legacy_gist.sql`
 and reimport hkiroads.sql.
 
+3. Make sure oskari user is the owner of schema `public` in oskari database.
+If not run following as the schema owner:
+`alter schema public owner to oskari;`
+
+ Without this pgrouting functions won't work and graph cannot be built.
+
