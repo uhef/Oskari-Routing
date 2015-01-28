@@ -26,3 +26,8 @@ If not run following as the schema owner:
 
  Without this pgrouting functions won't work and graph cannot be built.
 
+TODO (in no particular order):
+* Improve UI
+* Allow routing from anywhere on an edge
+* Introduce shortest route on backend for dynamic costs
+
