@@ -25,3 +25,5 @@
 -- select gid as id, cast(source as int4), cast(target as int4), cast(1 as float8) as cost from tieviiva2;
 
 -- select pgr_astar('select gid as id, cast(source as int4), cast(target as int4), cast(1 as float8) as cost from tieviiva2', 1, 76, false, false);
+
+-- SELECT PostGIS_full_version();
