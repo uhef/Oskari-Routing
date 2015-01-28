@@ -1,6 +1,7 @@
 {
     "setup" : [
         "create-empty-db",
+        "postgres-setup-pgrouting",
         "register-bundles",
         "register-inapprouting-bundle",
         "postgres-add-myplaces",
