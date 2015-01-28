@@ -12,7 +12,7 @@
 
 -- SELECT schema_name FROM information_schema.schemata WHERE schema_name = 'public';
 
-select * from information_schema.tables;
+-- select * from information_schema.schemata;
 
 -- select * from information_schema.schemata;
 
@@ -62,12 +62,18 @@ select * from information_schema.tables;
 
 -- select pgr_astar('select gid as id, cast(source as int4), cast(target as int4), cost, x1, y1, x2, y2 from tieviiva2', 1, 76, false, false);
 
--- select gid, nimi_suomi from tieviiva2 where nimi_suomi like '%aarl%';
+-- select gid, nimi_suomi from hkiroads where nimi_suomi like '%aarl%';
 
--- select gid, nimi_suomi from tieviiva2 where nimi_suomi like '%liel%';
+-- select gid, nimi_suomi from hkiroads where nimi_suomi like '%liel%';
 
--- select * from tieviiva2 where gid in (506, 940);
+-- select * from hkiroads where gid in (952, 506);
 
--- select pgr_astar('select gid as id, cast(source as int4), cast(target as int4), cost, x1, y1, x2, y2 from tieviiva2', 828, 14, false, false);
+-- select pgr_astar('select gid as id, cast(source as int4), cast(target as int4), cost, x1, y1, x2, y2 from hkiroads', 1736, 437, false, false);
+
+-- select nimi_suomi from hkiroads where gid in (select id2 from pgr_astar('select gid as id, cast(source as int4), cast(target as int4), cost, x1, y1, x2, y2 from hkiroads', 1736, 437, false, false));
+
+select geom2d from hkiroads where gid in (select id2 from pgr_astar('select gid as id, cast(source as int4), cast(target as int4), cost, x1, y1, x2, y2 from hkiroads', 1736, 437, false, false));
 
 -- select * from hkiroads;
+
+-- alter table hkiroads drop column source, drop column target;
