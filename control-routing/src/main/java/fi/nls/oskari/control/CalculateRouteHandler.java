@@ -18,9 +18,8 @@ import java.util.Map;
 
 @OskariActionRoute("CalculateRoute")
 public class CalculateRouteHandler extends ActionHandler {
-    private Map<String, Object> toGeoJSON(PGgeometry geometry) {
+    private Map<String, Object> toGeoJSON(MultiLineString multiLineString) {
         Map<String, Object> ret = new HashMap<String, Object>();
-        MultiLineString multiLineString = (MultiLineString)geometry.getGeometry();
         List<List<List<Double>>> coordinates = new ArrayList<List<List<Double>>>();
         for(int i = 0; i < multiLineString.getLines().length; ++i) {
             LineString lineString = multiLineString.getLine(i);
@@ -69,8 +68,24 @@ public class CalculateRouteHandler extends ActionHandler {
                 System.out.println(geometry.toString());
             }
             s.close();
+
+            Statement routeStatement = conn.createStatement();
+            ResultSet routeResult = routeStatement.executeQuery("" +
+                    "select geom2d from hkiroads where gid in " +
+                    "(select id2 from pgr_astar('select gid as id, cast(source as int4), cast(target as int4), cost, x1, y1, x2, y2 from hkiroads', 1736, 437, false, false))" +
+                    "");
+            List<LineString> routeLines = new ArrayList<LineString>();
+            while (routeResult.next()) {
+                PGgeometry linkGeometry = (PGgeometry) routeResult.getObject(1);
+                routeLines.add((LineString)linkGeometry.getGeometry());
+            }
+            routeStatement.close();
             conn.close();
-            ResponseHelper.writeResponse(params, mapper.writeValueAsString(toGeoJSON(geometry)));
+
+            LineString[] routeLineArray = new LineString[routeLines.size()];
+            routeLines.toArray(routeLineArray);
+            MultiLineString routeMultiLineString = new MultiLineString(routeLineArray);
+            ResponseHelper.writeResponse(params, mapper.writeValueAsString(toGeoJSON(routeMultiLineString)));
         }
         catch(Exception e) {
             e.printStackTrace();
