@@ -41,6 +41,7 @@ public class CalculateRouteHandler extends ActionHandler {
     @Override
     public void handleAction(ActionParameters params) throws ActionException {
         try {
+            System.out.println("Called with: " + params.getRequiredParam("lol"));
             Class.forName("org.postgresql.Driver");
             String url = "jdbc:postgresql://localhost:5432/oskaridb";
             java.sql.Connection conn = DriverManager.getConnection(url, "oskari", "W3jept2MqqZRX4J");
