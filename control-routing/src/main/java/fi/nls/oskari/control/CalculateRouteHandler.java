@@ -58,7 +58,6 @@ public class CalculateRouteHandler extends ActionHandler {
             ObjectMapper mapper = new ObjectMapper();
 
             ((org.postgresql.PGConnection) conn).addDataType("geometry", Class.forName("org.postgis.PGgeometry"));
-            ((org.postgresql.PGConnection) conn).addDataType("box3d", Class.forName("org.postgis.PGbox3d"));
 
             Statement routeStatement = conn.createStatement();
             ResultSet routeResult = routeStatement.executeQuery("" +
