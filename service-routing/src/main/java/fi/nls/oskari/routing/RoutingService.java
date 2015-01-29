@@ -49,13 +49,12 @@ public class RoutingService {
     public List<Geometry> calculateRoute() {
         try {
             SqlMapClient client = getSqlMapClient();
-            List results = client.queryForList("Routing.calculateRoute");
-            List<Geometry> output = new ArrayList<Geometry>();
-            for (Object result : results) {
-                PGgeometry lol = (PGgeometry) result;
-                output.add(lol.getGeometry());
+            List<Geometry> results = new ArrayList<Geometry>();
+            for (Object row : client.queryForList("Routing.calculateRoute")) {
+                PGgeometry geometry = (PGgeometry) row;
+                results.add(geometry.getGeometry());
             }
-            return output;
+            return results;
         } catch (Exception e) {
             System.out.println(e.getMessage());
             throw new RuntimeException("Failed to query", e);
