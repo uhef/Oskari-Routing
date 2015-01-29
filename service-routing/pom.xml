@@ -11,6 +11,10 @@
 
     <groupId>fi.nls.oskari.service</groupId>
     <artifactId>oskari-routing</artifactId>
-
-
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.ibatis</groupId>
+            <artifactId>ibatis-sqlmap</artifactId>
+        </dependency>
+    </dependencies>
 </project>
