@@ -46,38 +46,18 @@ public class CalculateRouteHandler extends ActionHandler {
             java.sql.Connection conn = DriverManager.getConnection(url, "oskari", "W3jept2MqqZRX4J");
             ObjectMapper mapper = new ObjectMapper();
 
-    /*
-    * Add the geometry types to the connection. Note that you
-    * must cast the connection to the pgsql-specific connection
-    * implementation before calling the addDataType() method.
-    */
             ((org.postgresql.PGConnection) conn).addDataType("geometry", Class.forName("org.postgis.PGgeometry"));
             ((org.postgresql.PGConnection) conn).addDataType("box3d", Class.forName("org.postgis.PGbox3d"));
-    /*
-    * Create a statement and execute a select query.
-    */
-            Statement s = conn.createStatement();
-            ResultSet r = s.executeQuery("select geom from tieviiva where gid = 10");
-            PGgeometry geometry = null;
-            while (r.next()) {
-      /*
-      * Retrieve the geometry as an object then cast it to the geometry type.
-      * Print things out.
-      */
-                geometry = (PGgeometry) r.getObject(1);
-                System.out.println(geometry.toString());
-            }
-            s.close();
 
             Statement routeStatement = conn.createStatement();
             ResultSet routeResult = routeStatement.executeQuery("" +
                     "select geom2d from hkiroads where gid in " +
-                    "(select id2 from pgr_astar('select gid as id, cast(source as int4), cast(target as int4), cost, x1, y1, x2, y2 from hkiroads', 1736, 437, false, false))" +
+                    "(select id2 from pgr_astar('select gid as id, cast(source as int4), cast(target as int4), cost, x1, y1, x2, y2 from hkiroads', 265, 854, false, false))" +
                     "");
             List<LineString> routeLines = new ArrayList<LineString>();
             while (routeResult.next()) {
                 PGgeometry linkGeometry = (PGgeometry) routeResult.getObject(1);
-                routeLines.add((LineString)linkGeometry.getGeometry());
+                routeLines.add((LineString) linkGeometry.getGeometry());
             }
             routeStatement.close();
             conn.close();
@@ -86,8 +66,7 @@ public class CalculateRouteHandler extends ActionHandler {
             routeLines.toArray(routeLineArray);
             MultiLineString routeMultiLineString = new MultiLineString(routeLineArray);
             ResponseHelper.writeResponse(params, mapper.writeValueAsString(toGeoJSON(routeMultiLineString)));
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
