@@ -1,6 +1,7 @@
 package fi.nls.oskari.control;
 
 import fi.nls.oskari.annotation.OskariActionRoute;
+import fi.nls.oskari.routing.RouteEndPoints;
 import fi.nls.oskari.routing.RoutingService;
 import fi.nls.oskari.util.ResponseHelper;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -47,7 +48,12 @@ public class CalculateRouteHandler extends ActionHandler {
             System.out.println("Routing service says: " + foo);
 
             List<LineString> routeLines = new ArrayList<LineString>();
-            List<Geometry> geometries = routingService.calculateRoute();
+            List<Geometry> geometries = routingService.calculateRoute(
+                    new RouteEndPoints(
+                            Double.parseDouble(params.getRequiredParam("startLon")),
+                            Double.parseDouble(params.getRequiredParam("startLat")),
+                            Double.parseDouble(params.getRequiredParam("endLon")),
+                            Double.parseDouble(params.getRequiredParam("endLat"))));
             Iterator<Geometry> resultIterator = geometries.iterator();
             while (resultIterator.hasNext()) {
                 routeLines.add((LineString)resultIterator.next());

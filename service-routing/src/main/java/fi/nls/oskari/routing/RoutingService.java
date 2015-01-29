@@ -46,11 +46,11 @@ public class RoutingService {
         }
     }
 
-    public List<Geometry> calculateRoute() {
+    public List<Geometry> calculateRoute(RouteEndPoints endPoints) {
         try {
             SqlMapClient client = getSqlMapClient();
             List<Geometry> results = new ArrayList<Geometry>();
-            for (Object row : client.queryForList("Routing.calculateRoute")) {
+            for (Object row : client.queryForList("Routing.calculateRoute", endPoints)) {
                 PGgeometry geometry = (PGgeometry) row;
                 results.add(geometry.getGeometry());
             }

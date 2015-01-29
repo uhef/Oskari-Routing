@@ -6,14 +6,21 @@
 
 <sqlMap namespace="Routing">
 
+    <typeAlias alias="RouteEndPoints" type="fi.nls.oskari.routing.RouteEndPoints"/>
+
     <select id="foo" resultClass="java.lang.Long">
         select count(*) from hkiroads
     </select>
 
-    <select id="calculateRoute" resultClass="Object">
+    <select id="calculateRoute" resultClass="Object" parameterClass="RouteEndPoints">
         select geom2d
         from hkiroads
-        where gid in
-        (select id2 from pgr_astar('select gid as id, cast(source as int4), cast(target as int4), cost, x1, y1, x2, y2 from hkiroads', 265, 854, false, false))
+        where gid in (
+          select id2 from pgr_astar(
+            'select gid as id, cast(source as int4), cast(target as int4), cost, x1, y1, x2, y2 from hkiroads',
+            oskari_routing_closest_node(st_geomfromtext('POINT($startLon$ $startLat$)',3067)),
+            oskari_routing_closest_node(st_geomfromtext('POINT($endLon$ $endLat$)',3067)),
+            false,
+            false))
     </select>
 </sqlMap>
