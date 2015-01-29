@@ -1,5 +1,3 @@
-create extension if not exists pgrouting;
-
 alter table hkiroads
   drop column if exists geom2d,
   drop column if exists source,
