@@ -72,8 +72,61 @@
 
 -- select nimi_suomi from hkiroads where gid in (select id2 from pgr_astar('select gid as id, cast(source as int4), cast(target as int4), cost, x1, y1, x2, y2 from hkiroads', 1736, 437, false, false));
 
-select geom2d from hkiroads where gid in (select id2 from pgr_astar('select gid as id, cast(source as int4), cast(target as int4), cost, x1, y1, x2, y2 from hkiroads', 1736, 437, false, false));
+-- select source, st_distance(st_geomfromtext('POINT(385213 6672412.75)',3067),st_startpoint(geom2d)) as s, target, st_distance(st_geomfromtext('POINT(385213 6672412.75)',3067),st_endpoint(geom2d)) as t from hkiroads;
 
--- select * from hkiroads;
+-- select source, st_startpoint(geom2d) from hkiroads;
+
+-- select oskari_routing_closest_node(st_geomfromtext('POINT(385213 6672412.75)',3067));
+
+-- select oskari_routing_closest_node(st_geomfromtext('POINT(386127 6672058.75)',3067));
+
+-- select geom2d from hkiroads where gid in (
+--   select id2 from
+--     pgr_astar(
+--       'select gid as id, cast(source as int4), cast(target as int4), cost, x1, y1, x2, y2 from hkiroads',
+--       oskari_routing_closest_node(st_geomfromtext('POINT(385213 6672412.75)',3067)),
+--       oskari_routing_closest_node(st_geomfromtext('POINT(386127 6672058.75)',3067)),
+--       false,
+--       false));
+
+-- select source, target from hkiroads;
+
+-- select node from (
+-- select
+--   source as node,
+--   st_distance(st_geomfromtext('POINT(385213 6672412.75)',3067), st_startpoint(geom2d)) as dis
+-- from hkiroads
+-- union all
+-- select
+--   target as node,
+--   st_distance(st_geomfromtext('POINT(385213 6672412.75)',3067), st_endpoint(geom2d)) as dis
+-- from hkiroads) as nodes
+-- where dis = (select min(dis) from (
+-- select
+--   st_distance(st_geomfromtext('POINT(385213 6672412.75)',3067), st_startpoint(geom2d)) as dis
+-- from hkiroads
+-- union all
+-- select
+--   st_distance(st_geomfromtext('POINT(385213 6672412.75)',3067), st_endpoint(geom2d)) as dis
+-- from hkiroads) as nodes);
+
+-- select min(dis) from (
+-- select
+--   source as node,
+--   st_startpoint(geom2d) as pos,
+--   st_distance(st_geomfromtext('POINT(385213 6672412.75)',3067), st_startpoint(geom2d)) as dis
+-- from hkiroads
+-- union all
+-- select
+--   target as node,
+--   st_endpoint(geom2d) as pos,
+--   st_distance(st_geomfromtext('POINT(385213 6672412.75)',3067), st_startpoint(geom2d)) as dis
+-- from hkiroads) as nodes;
+
+-- select count(*) from (select source from hkiroads union select target from hkiroads) as foo;
+
+-- select geom2d from hkiroads where gid in (select id2 from pgr_astar('select gid as id, cast(source as int4), cast(target as int4), cost, x1, y1, x2, y2 from hkiroads', 1736, 437, false, false));
+
+-- select min(source) from hkiroads;
 
 -- alter table hkiroads drop column source, drop column target;
