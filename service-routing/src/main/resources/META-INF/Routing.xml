@@ -10,4 +10,10 @@
         select count(*) from hkiroads
     </select>
 
+    <select id="calculateRoute" resultClass="Object">
+        select geom2d
+        from hkiroads
+        where gid in
+        (select id2 from pgr_astar('select gid as id, cast(source as int4), cast(target as int4), cost, x1, y1, x2, y2 from hkiroads', 265, 854, false, false))
+    </select>
 </sqlMap>

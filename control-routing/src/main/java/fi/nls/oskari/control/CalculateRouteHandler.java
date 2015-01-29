@@ -4,18 +4,12 @@ import fi.nls.oskari.annotation.OskariActionRoute;
 import fi.nls.oskari.routing.RoutingService;
 import fi.nls.oskari.util.ResponseHelper;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.postgis.Geometry;
 import org.postgis.LineString;
 import org.postgis.MultiLineString;
-import org.postgis.PGgeometry;
 import org.postgis.Point;
 
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @OskariActionRoute("CalculateRoute")
 public class CalculateRouteHandler extends ActionHandler {
@@ -52,26 +46,14 @@ public class CalculateRouteHandler extends ActionHandler {
             Long foo = routingService.hevonen();
             System.out.println("Routing service says: " + foo);
 
-            Class.forName("org.postgresql.Driver");
-            String url = "jdbc:postgresql://localhost:5432/oskaridb";
-            java.sql.Connection conn = DriverManager.getConnection(url, "oskari", "W3jept2MqqZRX4J");
-            ObjectMapper mapper = new ObjectMapper();
-
-            ((org.postgresql.PGConnection) conn).addDataType("geometry", Class.forName("org.postgis.PGgeometry"));
-
-            Statement routeStatement = conn.createStatement();
-            ResultSet routeResult = routeStatement.executeQuery("" +
-                    "select geom2d from hkiroads where gid in " +
-                    "(select id2 from pgr_astar('select gid as id, cast(source as int4), cast(target as int4), cost, x1, y1, x2, y2 from hkiroads', 265, 854, false, false))" +
-                    "");
             List<LineString> routeLines = new ArrayList<LineString>();
-            while (routeResult.next()) {
-                PGgeometry linkGeometry = (PGgeometry) routeResult.getObject(1);
-                routeLines.add((LineString) linkGeometry.getGeometry());
+            List<Geometry> geometries = routingService.calculateRoute();
+            Iterator<Geometry> resultIterator = geometries.iterator();
+            while (resultIterator.hasNext()) {
+                routeLines.add((LineString)resultIterator.next());
             }
-            routeStatement.close();
-            conn.close();
 
+            ObjectMapper mapper = new ObjectMapper();
             LineString[] routeLineArray = new LineString[routeLines.size()];
             routeLines.toArray(routeLineArray);
             MultiLineString routeMultiLineString = new MultiLineString(routeLineArray);
