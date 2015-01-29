@@ -35,17 +35,6 @@ public class RoutingService {
         }
     }
 
-    public Long hevonen() {
-        try {
-            SqlMapClient client = getSqlMapClient();
-            Long results = (Long)client.queryForObject("Routing.foo");
-            return results;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            throw new RuntimeException("Failed to query", e);
-        }
-    }
-
     public List<Geometry> calculateRoute(RouteEndPoints endPoints) {
         try {
             SqlMapClient client = getSqlMapClient();

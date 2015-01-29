@@ -39,14 +39,6 @@ public class CalculateRouteHandler extends ActionHandler {
     @Override
     public void handleAction(ActionParameters params) throws ActionException {
         try {
-            System.out.println("Start lon: " + params.getRequiredParam("startLon"));
-            System.out.println("Start lat: " + params.getRequiredParam("startLat"));
-            System.out.println("End lon: " + params.getRequiredParam("endLon"));
-            System.out.println("End lat: " + params.getRequiredParam("endLat"));
-
-            Long foo = routingService.hevonen();
-            System.out.println("Routing service says: " + foo);
-
             List<LineString> routeLines = new ArrayList<LineString>();
             List<Geometry> geometries = routingService.calculateRoute(
                     new RouteEndPoints(

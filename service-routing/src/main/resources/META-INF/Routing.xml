@@ -8,10 +8,6 @@
 
     <typeAlias alias="RouteEndPoints" type="fi.nls.oskari.routing.RouteEndPoints"/>
 
-    <select id="foo" resultClass="java.lang.Long">
-        select count(*) from hkiroads
-    </select>
-
     <select id="calculateRoute" resultClass="Object" parameterClass="RouteEndPoints">
         select geom2d
         from hkiroads
