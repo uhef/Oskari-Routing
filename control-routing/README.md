@@ -43,6 +43,10 @@ run the following as the schema owner:
 `alter schema public owner to oskari;`
 Replace `public` and `oskari` in the above to match your system.
 
+4. Create functions required for inapprouting. This step has to be completed manually since Oskari sql parser does not support definition of functions:
+`psql -d oskaridb -U oskari -f content-resources/src/main/resources/sql/PostgreSQL/create-pgrouting-functions.sql`
+Replace `oskari` with the user role content-resources uses in database
+
 TODO (in no particular order):
 * Improve UI
 * Allow routing from anywhere on an edge
