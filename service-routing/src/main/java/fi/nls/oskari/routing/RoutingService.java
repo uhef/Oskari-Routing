@@ -10,10 +10,8 @@ public class RoutingService {
     private SqlMapClient client = null;
     private static String SQL_MAP_LOCATION = "META-INF/SqlMapConfig.xml";
 
-    protected SqlMapClient getSqlMapClient() {
-        if (client != null) {
-            return client;
-        }
+    private SqlMapClient getSqlMapClient() {
+        if (client != null) { return client; }
 
         Reader reader = null;
         try {
@@ -35,7 +33,7 @@ public class RoutingService {
 
     public Long hevonen() {
         try {
-            client = getSqlMapClient();
+            SqlMapClient client = getSqlMapClient();
             Long results = (Long)client.queryForObject("Routing.foo");
             return results;
         } catch (Exception e) {
