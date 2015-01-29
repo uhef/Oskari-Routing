@@ -1,6 +1,7 @@
 package fi.nls.oskari.control;
 
 import fi.nls.oskari.annotation.OskariActionRoute;
+import fi.nls.oskari.routing.RoutingService;
 import fi.nls.oskari.util.ResponseHelper;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.postgis.LineString;
@@ -18,6 +19,8 @@ import java.util.Map;
 
 @OskariActionRoute("CalculateRoute")
 public class CalculateRouteHandler extends ActionHandler {
+    private RoutingService routingService = new RoutingService();
+
     private Map<String, Object> toGeoJSON(MultiLineString multiLineString) {
         Map<String, Object> ret = new HashMap<String, Object>();
         List<List<List<Double>>> coordinates = new ArrayList<List<List<Double>>>();
@@ -45,6 +48,10 @@ public class CalculateRouteHandler extends ActionHandler {
             System.out.println("Start lat: " + params.getRequiredParam("startLat"));
             System.out.println("End lon: " + params.getRequiredParam("endLon"));
             System.out.println("End lat: " + params.getRequiredParam("endLat"));
+
+            Long foo = routingService.hevonen();
+            System.out.println("Routing service says: " + foo);
+
             Class.forName("org.postgresql.Driver");
             String url = "jdbc:postgresql://localhost:5432/oskaridb";
             java.sql.Connection conn = DriverManager.getConnection(url, "oskari", "W3jept2MqqZRX4J");
