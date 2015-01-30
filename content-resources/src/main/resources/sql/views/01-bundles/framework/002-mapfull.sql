@@ -57,6 +57,9 @@ update portti_bundle set startup='{
             "mapwfs2" : {
                 "bundlePath" : "/Oskari/packages/framework/bundle/"
             },
+            "geojson" : {
+                "bundlePath" : "/Oskari/packages/geojson/bundle/"
+            },
             "mapwmts" : {
                 "bundlePath" : "/Oskari/packages/framework/bundle/"
             },
