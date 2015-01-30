@@ -45,7 +45,8 @@ public class CalculateRouteHandler extends ActionHandler {
                             Double.parseDouble(params.getRequiredParam("startLon")),
                             Double.parseDouble(params.getRequiredParam("startLat")),
                             Double.parseDouble(params.getRequiredParam("endLon")),
-                            Double.parseDouble(params.getRequiredParam("endLat"))));
+                            Double.parseDouble(params.getRequiredParam("endLat"))),
+                    params.getRequiredParam("algorithm"));
             Iterator<Geometry> resultIterator = geometries.iterator();
             while (resultIterator.hasNext()) {
                 routeLines.add((LineString)resultIterator.next());

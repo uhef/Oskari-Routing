@@ -35,18 +35,32 @@ public class RoutingService {
         }
     }
 
-    public List<Geometry> calculateRoute(RouteEndPoints endPoints) {
-        try {
-            SqlMapClient client = getSqlMapClient();
-            List<Geometry> results = new ArrayList<Geometry>();
-            for (Object row : client.queryForList("Routing.calculateRoute", endPoints)) {
-                PGgeometry geometry = (PGgeometry) row;
-                results.add(geometry.getGeometry());
+    public List<Geometry> calculateRoute(RouteEndPoints endPoints, String algorithm) {
+        if (algorithm.equals("astar")) {
+            return AStarAlgorithm.calculateRoute(endPoints, 0, 0, new Graph() {
+                @Override
+                public Boolean hasNeighbors(Integer node) {
+                    return null;
+                }
+
+                @Override
+                public List<DistanceNode> getNeighbors(Integer node) {
+                    return null;
+                }
+            });
+        } else {
+            try {
+                SqlMapClient client = getSqlMapClient();
+                List<Geometry> results = new ArrayList<Geometry>();
+                for (Object row : client.queryForList("Routing.calculateRoute", endPoints)) {
+                    PGgeometry geometry = (PGgeometry) row;
+                    results.add(geometry.getGeometry());
+                }
+                return results;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                throw new RuntimeException("Failed to query", e);
             }
-            return results;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            throw new RuntimeException("Failed to query", e);
         }
     }
 }
