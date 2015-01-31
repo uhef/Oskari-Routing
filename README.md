@@ -4,6 +4,9 @@ Oskari-Routing provides in-application route calculation on Oskari platform. Osk
 
 Oskari-Routing is a collection of enhancements both in the backend and in the front-end of Oskari. See [Oskari-Routing front end](https://github.com/uhef/Oskari-Routing-frontend).
 
+**Video on Oskari-Routing in action**  
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=ZoX0JfIi0Ik" target="_blank"><img src="http://img.youtube.com/vi/ZoX0JfIi0Ik/0.jpg" alt="Oskari-Routing YouTube video" width="240" height="180" border="10"/></a>
+
 ## Demo Setup
 
 In order to get Oskari-Routing to work some setup is required.
