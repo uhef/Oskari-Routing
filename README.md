@@ -81,6 +81,19 @@ Replace `oskari` with the user role Oskari uses to connecto to database
 Run the following in the `content-resources` directory:  
 `mvn compile exec:java -Doskari.dropdb=true -Doskari.setup=vector-layer -Ddb.username=oskari -Ddb.password=<oskaripasswd>`
 
+### 5. Run Demo
+
+Now everything should be ready for demo.
+
+1. Launch Oskari backend:  
+Run following in `standalone-jetty` directory:  
+`mvn compile exec:java -Ddb.username=oskari -Ddb.password=<oskaripasswd>`
+
+2. Direct your browser to:  
+`http://localhost:2373/`
+
+3. You should see **Routing**-tile on the left which you can select to do route calculations
+
 ## Contents
 
 As said, Oskari-Routing is a collection of improvements to Oskari to enable in-application routing. It contains following:
