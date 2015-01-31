@@ -2,7 +2,7 @@
 
 Oskari-Routing provides in-application route calculation on Oskari platform. Oskari-Routing is submit entry to [Oskari Challenge 2015](http://oskari.org/challenge).
 
-Oskari-Routing is a collection of enhancements both in the backend and in the front-end of Oskari. See [Oskari-Routing front end](http://todo).
+Oskari-Routing is a collection of enhancements both in the backend and in the front-end of Oskari. See [Oskari-Routing front end](https://github.com/uhef/Oskari-Routing-frontend).
 
 ## Demo Setup
 
@@ -96,11 +96,11 @@ As said, Oskari-Routing is a collection of improvements to Oskari to enable in-a
 
 ### Routing bundle
 
-Bundle that implements user interface for route calculation. See [Oskari-Routing front end](http://todo) for more info.
+Bundle that implements user interface for route calculation. See [Oskari-Routing front end](https://github.com/uhef/Oskari-Routing-frontend) for more info.
 
 ### GeoJSON plugin
 
-Bundle that allows rendering of GeoJSON content on the Oskari front-end. See [Oskari-Routing front end](http://todo) for more info.
+Bundle that allows rendering of GeoJSON content on the Oskari front-end. See [Oskari-Routing front end](https://github.com/uhef/Oskari-Routing-frontend) for more info.
 
 ### control-routing
 
