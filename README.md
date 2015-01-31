@@ -119,8 +119,6 @@ Backend module that implements proprietary A\* Algorithm and supports A\* Algori
 
 ## TODO:
 
-* Remove control-routing/README.md
-* Remove setup-pgrouting-graph.sql
 * Fix register-inapprouting-bundle.sql
 * Rename setup script from vector-layer
 * Allow definition of road link table name in configuration
