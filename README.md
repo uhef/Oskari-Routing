@@ -6,7 +6,10 @@ Oskari-Routing is a collection of enhancements both in the backend and in the fr
 
 ## Table of Contents
 
-TODO
+* **[Demo Setup](#demo-setup)**
+* **[Contents](#contents)**
+* **[TODO](#todo)**
+* **[License](#license)**
 
 ## Demo Setup
 
@@ -132,7 +135,6 @@ Backend module that implements proprietary A\* Algorithm and supports A\* Algori
 * Support for remaining pgRouting algorithms
 * Allow dynamic variables in route calculation (such as traffic conditions)
 
-## Copyright and license
+## License
 
-Copyright 2014 NLS under dual license MIT (included LICENSE-MIT.txt) and [EUPL](https://joinup.ec.europa.eu/software/page/eupl/licence-eupl)
-(any language version applies, English version is included in LICENSE-EUPL.pdf).
+License MIT (included LICENSE-MIT.txt)
