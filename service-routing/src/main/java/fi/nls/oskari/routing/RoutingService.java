@@ -10,6 +10,7 @@ import org.postgis.PGgeometry;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public class RoutingService {
     private SqlMapClient client = null;
@@ -44,7 +45,12 @@ public class RoutingService {
                 PgRoutingTableGraph graph = new PgRoutingTableGraph(session);
                 Integer startNode = (Integer)session.queryForObject("Routing.closestNode", new Coordinates(endPoints.getStartLon(), endPoints.getStartLat()));
                 Integer endNode = (Integer)session.queryForObject("Routing.closestNode", new Coordinates(endPoints.getEndLon(), endPoints.getEndLat()));
-                return AStarAlgorithm.calculateRoute(endPoints, startNode, endNode, graph);
+                Stack<Geometry> route = AStarAlgorithm.calculateRoute(endPoints, startNode, endNode, graph);
+                List<Geometry> results = new ArrayList<Geometry>();
+                while(!route.empty()) {
+                    results.add(route.pop());
+                }
+                return results;
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 throw new RuntimeException("A Star algorithm or graph enquery failed: ", e);

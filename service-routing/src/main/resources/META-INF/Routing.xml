@@ -35,10 +35,10 @@
     </select>
 
     <select id="neighbors" resultClass="DistanceNode" parameterClass="Integer">
-        select node, edge, lon, lat, distance from (
-          select source as node, gid as edge, x1 as lon, y1 as lat, st_length(geom2d) as distance from hkiroads where (target = #node# and (yksisuunta = 0 or yksisuunta = 2))
+        select node, edge, lon, lat, distance, geom from (
+          select source as node, gid as edge, x1 as lon, y1 as lat, st_length(geom2d) as distance, geom2d as geom from hkiroads where (target = #node# and (yksisuunta = 0 or yksisuunta = 2))
           union all
-          select target as node, gid as edge, x2 as lon, y2 as lat, st_length(geom2d) as distance from hkiroads where (source = #node# and (yksisuunta = 0 or yksisuunta = 1))
+          select target as node, gid as edge, x2 as lon, y2 as lat, st_length(geom2d) as distance, geom2d as geom from hkiroads where (source = #node# and (yksisuunta = 0 or yksisuunta = 1))
         ) as nodes;
     </select>
 </sqlMap>

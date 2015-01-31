@@ -7,11 +7,11 @@ import java.util.*;
 public class AStarAlgorithm {
     private static class CameFrom {
         public Integer node;
-        public Integer edge;
+        public Geometry geometry;
 
-        public CameFrom(Integer node, Integer edge) {
+        public CameFrom(Integer node, Geometry geometry) {
             this.node = node;
-            this.edge = edge;
+            this.geometry = geometry;
         }
     }
 
@@ -36,7 +36,7 @@ public class AStarAlgorithm {
         }
     }
 
-    public static List<Geometry> calculateRoute(RouteEndPoints endPoints, Integer startNode, Integer endNode, Graph graph) {
+    public static Stack<Geometry> calculateRoute(RouteEndPoints endPoints, Integer startNode, Integer endNode, Graph graph) {
         Map<Integer, CameFrom> cameFrom = new HashMap<Integer, CameFrom>();
         Map<Integer, Double> gValue = new HashMap<Integer, Double>();
         PriorityQueue<PriorityNode> fringe = new PriorityQueue<PriorityNode>();
@@ -47,13 +47,8 @@ public class AStarAlgorithm {
 
         while(fringe.size() > 0) {
             Integer currentNode = fringe.poll().node;
-            if(currentNode.equals(endNode)) {
-                System.out.println("I would reconstruct the path now...");
-                Stack<Integer> route = reconstructPath(cameFrom, startNode, endNode);
-                while(!route.empty()) {
-                    System.out.println("Route node: " + route.pop());
-                }
-                return new ArrayList<Geometry>();
+            if (currentNode.equals(endNode)) {
+                return reconstructPath(cameFrom, startNode, endNode);
             }
 
             if(graph.hasNeighbors(currentNode)) {
@@ -64,22 +59,22 @@ public class AStarAlgorithm {
                         gValue.put(neighbor.node, tentativeG);
                         Double priority = calculatePriority(tentativeG, neighbor.lon, neighbor.lat, endPoints.getEndLon(), endPoints.getEndLat());
                         fringe.add(new PriorityNode(neighbor.node, priority));
-                        cameFrom.put(neighbor.node, new CameFrom(currentNode, neighbor.edge));
+                        cameFrom.put(neighbor.node, new CameFrom(currentNode, neighbor.getGeometry()));
                     }
                 }
             }
         }
 
-        System.out.println("I didn't find a solution :(...");
         return null;
     }
 
-    private static Stack<Integer> reconstructPath(Map<Integer, CameFrom> cameFrom, Integer startNode, Integer endNode) {
-        Stack<Integer> route = new Stack<Integer>();
+    private static Stack<Geometry> reconstructPath(Map<Integer, CameFrom> cameFrom, Integer startNode, Integer endNode) {
+        Stack<Geometry> route = new Stack<Geometry>();
         Integer current = endNode;
         while(!current.equals(startNode)) {
-            route.push(current);
-            current = cameFrom.get(current).node;
+            CameFrom from = cameFrom.get(current);
+            route.push(from.geometry);
+            current = from.node;
         }
         return route;
     }
