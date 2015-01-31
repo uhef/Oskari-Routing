@@ -3,6 +3,7 @@ package fi.nls.oskari.routing;
 import com.ibatis.common.resources.Resources;
 import com.ibatis.sqlmap.client.SqlMapClient;
 import com.ibatis.sqlmap.client.SqlMapClientBuilder;
+import com.ibatis.sqlmap.client.SqlMapSession;
 import org.postgis.Geometry;
 import org.postgis.PGgeometry;
 
@@ -37,17 +38,19 @@ public class RoutingService {
 
     public List<Geometry> calculateRoute(RouteEndPoints endPoints, String algorithm) {
         if (algorithm.equals("astar")) {
-            return AStarAlgorithm.calculateRoute(endPoints, 0, 0, new Graph() {
-                @Override
-                public Boolean hasNeighbors(Integer node) {
-                    return null;
-                }
-
-                @Override
-                public List<DistanceNode> getNeighbors(Integer node) {
-                    return null;
-                }
-            });
+            SqlMapClient client = getSqlMapClient();
+            SqlMapSession session = client.openSession();
+            try {
+                PgRoutingTableGraph graph = new PgRoutingTableGraph(session);
+                Integer startNode = (Integer)session.queryForObject("Routing.closestNode", new Coordinates(endPoints.getStartLon(), endPoints.getStartLat()));
+                Integer endNode = (Integer)session.queryForObject("Routing.closestNode", new Coordinates(endPoints.getEndLon(), endPoints.getEndLat()));
+                return AStarAlgorithm.calculateRoute(endPoints, startNode, endNode, graph);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                throw new RuntimeException("A Star algorithm or graph enquery failed: ", e);
+            } finally {
+                session.close();
+            }
         } else {
             try {
                 SqlMapClient client = getSqlMapClient();

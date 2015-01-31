@@ -7,6 +7,8 @@
 <sqlMap namespace="Routing">
 
     <typeAlias alias="RouteEndPoints" type="fi.nls.oskari.routing.RouteEndPoints"/>
+    <typeAlias alias="DistanceNode" type="fi.nls.oskari.routing.DistanceNode"/>
+    <typeAlias alias="Coordinates" type="fi.nls.oskari.routing.Coordinates"/>
 
     <select id="calculateRoute" resultClass="Object" parameterClass="RouteEndPoints">
         select geom2d
@@ -18,5 +20,25 @@
             oskari_routing_closest_node(st_geomfromtext('POINT($endLon$ $endLat$)',3067)),
             false,
             false))
+    </select>
+
+    <select id="closestNode" resultClass="Integer" parameterClass="Coordinates">
+      select oskari_routing_closest_node(st_geomfromtext('POINT($lon$ $lat$)',3067))
+    </select>
+
+    <select id="hasNeighbors" resultClass="Object" parameterClass="Integer">
+        select (
+          select count(*) from hkiroads where (
+            source = #node# and (yksisuunta = 0 or yksisuunta = 1)) or (
+            target = #node# and (yksisuunta = 0 or yksisuunta = 2))
+          ) > 0;
+    </select>
+
+    <select id="neighbors" resultClass="DistanceNode" parameterClass="Integer">
+        select node, edge, lon, lat, distance from (
+          select source as node, gid as edge, x1 as lon, y1 as lat, st_length(geom2d) as distance from hkiroads where (target = #node# and (yksisuunta = 0 or yksisuunta = 2))
+          union all
+          select target as node, gid as edge, x2 as lon, y2 as lat, st_length(geom2d) as distance from hkiroads where (source = #node# and (yksisuunta = 0 or yksisuunta = 1))
+        ) as nodes;
     </select>
 </sqlMap>

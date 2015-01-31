@@ -47,8 +47,12 @@ public class AStarAlgorithm {
 
         while(fringe.size() > 0) {
             Integer currentNode = fringe.poll().node;
-            if(currentNode == endNode) {
+            if(currentNode.equals(endNode)) {
                 System.out.println("I would reconstruct the path now...");
+                Stack<Integer> route = reconstructPath(cameFrom, startNode, endNode);
+                while(!route.empty()) {
+                    System.out.println("Route node: " + route.pop());
+                }
                 return new ArrayList<Geometry>();
             }
 
@@ -58,7 +62,7 @@ public class AStarAlgorithm {
                     Double tentativeG = gValue.get(currentNode) + neighbor.distance;
                     if(!gValue.containsKey(neighbor.node) || tentativeG < gValue.get(neighbor.node)) {
                         gValue.put(neighbor.node, tentativeG);
-                        Double priority = calculatePriority();
+                        Double priority = calculatePriority(tentativeG, neighbor.lon, neighbor.lat, endPoints.getEndLon(), endPoints.getEndLat());
                         fringe.add(new PriorityNode(neighbor.node, priority));
                         cameFrom.put(neighbor.node, new CameFrom(currentNode, neighbor.edge));
                     }
@@ -70,7 +74,21 @@ public class AStarAlgorithm {
         return null;
     }
 
-    private static Double calculatePriority() {
-        return 0.0;
+    private static Stack<Integer> reconstructPath(Map<Integer, CameFrom> cameFrom, Integer startNode, Integer endNode) {
+        Stack<Integer> route = new Stack<Integer>();
+        Integer current = endNode;
+        while(!current.equals(startNode)) {
+            route.push(current);
+            current = cameFrom.get(current).node;
+        }
+        return route;
+    }
+
+    private static Double calculatePriority(Double tentativeG, Double lon, Double lat, Double endLon, Double endLat) {
+        Double lonDiff = lon - endLon;
+        Double latDiff = lat - endLat;
+        Double distanceBetweenNodes = Math.sqrt((lonDiff * lonDiff) + (latDiff + latDiff));
+        return tentativeG + distanceBetweenNodes;
     }
 }
+
