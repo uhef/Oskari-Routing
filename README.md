@@ -11,7 +11,7 @@ Oskari-Routing is a collection of enhancements both in the backend and in the fr
 * **[TODO](#todo)**
 * **[License](#license)**
 
-## Demo Setup
+## <a name="demo-setup"></a>Demo Setup
 
 In order to get Oskari-Routing to work some setup is required.
 
@@ -97,7 +97,7 @@ Run following in `standalone-jetty` directory:
 
 3. You should see **Routing**-tile on the left which you can select to do route calculations
 
-## Contents
+## <a name="contents"></a>Contents
 
 As said, Oskari-Routing is a collection of improvements to Oskari to enable in-application routing. It contains following:
 
@@ -124,7 +124,7 @@ Backend module that implements proprietary A\* Algorithm and supports A\* Algori
 * pgRouting integration
 * Bug fix to content-resources module so that user can override db user and password on command line.
 
-## TODO:
+## <a name="todo"></a>TODO:
 
 * Remove control-routing/README.md
 * Remove setup-pgrouting-graph.sql
@@ -135,6 +135,6 @@ Backend module that implements proprietary A\* Algorithm and supports A\* Algori
 * Support for remaining pgRouting algorithms
 * Allow dynamic variables in route calculation (such as traffic conditions)
 
-## License
+## <a name="license"></a>License
 
 License MIT (included LICENSE-MIT.txt)
