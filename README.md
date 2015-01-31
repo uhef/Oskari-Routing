@@ -19,7 +19,7 @@ First setup Oskari server as instructed in [Oskari.org documentation](http://osk
 Even though Oskari-Routing implements proprietary A\* Algorithm it uses pgRouting to construct graph representation
 from given road link data.
 
-Oskari-Routing also provides support for pgRouting A\* Algorithm that can be used on-side with the proprietary algorithm.
+Oskari-Routing also provides support for pgRouting A\* Algorithm that can be used on side with the proprietary algorithm.
 
 1. Install pgRouting from http://pgrouting.org/. Tested on pgRouting 2.0.0
 
@@ -39,10 +39,29 @@ Data is fetched as a shape file from [National Land Survey of Finland](http://ww
 This will create `roadlinks-hki.shp.zip` zipped shape file that contains road links of downtown Helsinki area.
 
 2. Unzip the zipped shape file to a new directory:
-`mkdir roadlinks-hki`
-`mv roadlinks-hki.shp.zip roadlinks-hki`
-`cd roadlinks-hki`
-`unzip roadlinks-hki.shp.zip`
+```
+mkdir roadlinks-hki
+mv roadlinks-hki.shp.zip roadlinks-hki
+cd roadlinks-hki
+unzip roadlinks-hki.shp.zip
+```
+
+### Import road link data to oskari database
+
+1. Create SQL script from shape file by running following in the directory to which road link shape file was extracted:
+`shp2pgsql -s 3067 -g geom -I -S -W LATIN1 tieviiva.shp public.hkiroads > hkiroads.sql`
+
+This will output `hkiroads.sql` - file to the directory in which the command is executed.
+
+The parameters depend on the road link data in question. These parameters are tailored for the data acquired in the
+previous step and are explained below:
+
+* -s 3067 -> Use specified projection identified by srid (ETRS89 / ETRS-TM35FIN)
+* -g geom -> Write road link geometry to `geom` column
+* -I -> Create spatial index on the geometry
+* -S -> Generate simple geometries (LineString instead of MultiLineString)
+* -W LATIN1 -> Use correct character encoding
+
 
 ## Copyright and license
 
