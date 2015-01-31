@@ -81,9 +81,38 @@ Replace `oskari` with the user role Oskari uses to connecto to database
 Run the following in the `content-resources` directory:  
 `mvn compile exec:java -Doskari.dropdb=true -Doskari.setup=vector-layer -Ddb.username=oskari -Ddb.password=<oskaripasswd>`
 
+## Contents
+
+As said, Oskari-Routing is a collection of improvements to Oskari to enable in-application routing. It contains following:
+
+### Routing bundle
+
+Bundle that implements user interface for route calculation. See [Oskari-Routing front end](http://todo) for more info.
+
+### GeoJSON plugin
+
+Bundle that allows rendering of GeoJSON content on the Oskari front-end. See [Oskari-Routing front end](http://todo) for more info.
+
+### control-routing
+
+Backend module that handles incoming route calculation requests from front-end, parses front-end parameters, calls service-routing and
+transforms service-routing output to GeoJSON for delivering to front-end.
+
+### service-routing
+
+Backend module that implements proprietary A\* Algorithm and supports A\* Algorithm of pgRouting.
+
+### Miscellaneous enhancements
+
+* Database enhancements needed for routing
+* pgRouting integration
+* Bug fix to content-resources module so that user can override db user and password on command line.
 
 ## TODO:
 
+* Remove control-routing/README.md
+* Remove setup-pgrouting-graph.sql
+* Fix register-inapprouting-bundle.sql
 * Rename setup script from vector-layer
 * Allow definition of road link table name in configuration
 * Allow routing from anywhere on edge (currently route calculation always starts and ends from/to the closest node)
