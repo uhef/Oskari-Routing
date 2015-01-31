@@ -14,7 +14,7 @@ In order to get Oskari-Routing to work some setup is required.
 
 First setup Oskari server as instructed in [Oskari.org documentation](http://oskari.org/documentation/backend/server-embedded-developer).
 
-### Setup [pgRouting](http://pgrouting.org/) in the database
+### 1. Setup [pgRouting](http://pgrouting.org/) in the database
 
 Even though Oskari-Routing implements proprietary A\* Algorithm it uses pgRouting to construct graph representation
 from given road link data.
@@ -29,7 +29,7 @@ Oskari-Routing also provides support for pgRouting A\* Algorithm that can be use
 create extension if not exists pgrouting;
 ```
 
-### 1. Acquire road link data that can be used for routing
+### 2. Acquire road link data that can be used for routing
 
 As an example we are going to use road link data of downtown Helsinki for route calculation.
 Data is fetched as a shape file from [National Land Survey of Finland](http://www.maanmittauslaitos.fi/en) database.
@@ -46,9 +46,9 @@ cd roadlinks-hki
 unzip roadlinks-hki.shp.zip
 ```
 
-### 2. Import road link data to Oskari database
+### 3. Import road link data to Oskari database
 
-1. Create SQL script from shape file by running following in the directory to which road link shape file was extracted:
+1. Create SQL script from shape file by running following in the directory to which road link shape file was extracted:  
 `shp2pgsql -s 3067 -g geom -I -S -W LATIN1 tieviiva.shp public.hkiroads > hkiroads.sql`  
 This will output `hkiroads.sql` - file to the directory in which the command is executed.  
 The parameters depend on the road link data in question. These parameters are tailored for the data acquired in the
@@ -65,7 +65,7 @@ Here its assumed that Oskari uses db by role `oskari`
 In case of error: **ERROR: operator class "gist_geometry_ops" does not exist for access method "gist"**
 Import `legacy_gist.sql` to PostgreSQL and import `hkiroads.sql`-file again.
 
-### 3. Setup Oskari application
+### 4. Setup Oskari application
 
 1. Make sure that the oskari user is the owner of the schema in which `hkiroads` table exists.
 Without this pgRouting setup functions won't work and graph cannot be built.  
