@@ -10,7 +10,7 @@
         "populate-inspire-themes-and-groups"
     ],
     "views" : [
-        "vector-view.json",
+        "oskari-routing-view.json",
         "postgres-view.json",
         "publisher-template-view.json"
     ],

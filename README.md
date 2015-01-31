@@ -75,7 +75,7 @@ Replace `oskari` with the user role Oskari uses to connecto to database
 
 3. Setup test application and create graph with pgRouting for route calculation.  
 Run the following in the `content-resources` directory:  
-`mvn compile exec:java -Doskari.dropdb=true -Doskari.setup=vector-layer -Ddb.username=oskari -Ddb.password=<oskaripasswd>`
+`mvn compile exec:java -Doskari.dropdb=true -Doskari.setup=oskari-routing -Ddb.username=oskari -Ddb.password=<oskaripasswd>`
 
 ### 5. Run Demo
 
@@ -119,8 +119,6 @@ Backend module that implements proprietary A\* Algorithm and supports A\* Algori
 
 ## TODO:
 
-* Fix register-inapprouting-bundle.sql
-* Rename setup script from vector-layer
 * Allow definition of road link table name in configuration
 * Allow routing from anywhere on edge (currently route calculation always starts and ends from/to the closest node)
 * Support for remaining pgRouting algorithms
