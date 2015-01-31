@@ -29,7 +29,7 @@ Oskari-Routing also provides support for pgRouting A\* Algorithm that can be use
 create extension if not exists pgrouting;
 ```
 
-### Acquire road link data that can be used for routing
+### 1. Acquire road link data that can be used for routing
 
 As an example we are going to use road link data of downtown Helsinki for route calculation.
 Data is fetched as a shape file from [National Land Survey of Finland](http://www.maanmittauslaitos.fi/en) database.
@@ -46,7 +46,7 @@ cd roadlinks-hki
 unzip roadlinks-hki.shp.zip
 ```
 
-### Import road link data to oskari database
+### 2. Import road link data to Oskari database
 
 1. Create SQL script from shape file by running following in the directory to which road link shape file was extracted:
 `shp2pgsql -s 3067 -g geom -I -S -W LATIN1 tieviiva.shp public.hkiroads > hkiroads.sql`  
@@ -64,6 +64,31 @@ previous step and are explained below:
 Here its assumed that Oskari uses db by role `oskari`    
 In case of error: **ERROR: operator class "gist_geometry_ops" does not exist for access method "gist"**
 Import `legacy_gist.sql` to PostgreSQL and import `hkiroads.sql`-file again.
+
+### 3. Setup Oskari application
+
+1. Make sure that the oskari user is the owner of the schema in which `hkiroads` table exists.
+Without this pgRouting setup functions won't work and graph cannot be built.  
+In our case run the following as the schema `public` owner:  
+`alter schema public owner to oskari;`
+
+2. Create functions required for Oskari-Routing. This step has to be completed manually since Oskari sql parser does not support definition of functions.  
+Run the following in root directory:  
+`psql -d oskaridb -U oskari -f content-resources/src/main/resources/sql/PostgreSQL/create-pgrouting-functions.sql`  
+Replace `oskari` with the user role Oskari uses to connecto to database
+
+3. Setup test application and create graph with pgRouting for route calculation.  
+Run the following in the `content-resources` directory:  
+`mvn compile exec:java -Doskari.dropdb=true -Doskari.setup=vector-layer -Ddb.username=oskari -Ddb.password=<oskaripasswd>`
+
+
+## TODO:
+
+* Rename setup script from vector-layer
+* Allow definition of road link table name in configuration
+* Allow routing from anywhere on edge (currently route calculation always starts and ends from/to the closest node)
+* Support for remaining pgRouting algorithms
+* Allow dynamic variables in route calculation (such as traffic conditions)
 
 ## Copyright and license
 
