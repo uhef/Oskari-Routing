@@ -56,26 +56,21 @@ This will output `hkiroads.sql` - file to the directory in which the command is 
 The parameters depend on the road link data in question. These parameters are tailored for the data acquired in the
 previous step and are explained below:
 
-* -s 3067 -> Use specified projection identified by srid (ETRS89 / ETRS-TM35FIN)
-* -g geom -> Write road link geometry to `geom` column
-* -I -> Create spatial index on the geometry
-* -S -> Generate simple geometries (LineString instead of MultiLineString)
-* -W LATIN1 -> Use correct character encoding
+..* -s 3067 -> Use specified projection identified by srid (ETRS89 / ETRS-TM35FIN)
+..* -g geom -> Write road link geometry to `geom` column
+..* -I -> Create spatial index on the geometry
+..* -S -> Generate simple geometries (LineString instead of MultiLineString)
+..* -W LATIN1 -> Use correct character encoding
 
 2. Import road links from `hkiroads.sql`-file to PostgreSQL as oskari user:
 `psql -d oskaridb -U oskari -f hkiroads.sql -W`
 
 Here its assumed that Oskari uses db by role `oskari`
 
-In case of error:
-
-`ERROR: operator class "gist_geometry_ops" does not exist for access method "gist"`
-
+In case of error: **ERROR: operator class "gist_geometry_ops" does not exist for access method "gist"** 
 Import `legacy_gist.sql` to PostgreSQL. Something along these lines:
-
-`psql -d oskaridb -f /usr/share/postgresql/9.1/contrib/postgis-2.1/legacy_gist.sql`
-
-where `/usr/share/postgresql/9.1/contrib/postgis-2.1/legacy_gist.sql` should naturally match your system.
+ `psql -d oskaridb -f /usr/share/postgresql/9.1/contrib/postgis-2.1/legacy_gist.sql`
+ where `/usr/share/postgresql/9.1/contrib/postgis-2.1/legacy_gist.sql` should naturally match your system.
 
 Import `hkiroads.sql`-file again.
 
