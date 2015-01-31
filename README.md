@@ -111,6 +111,18 @@ transforms service-routing output to GeoJSON for delivering to front-end.
 
 Backend module that implements proprietary A\* Algorithm and supports A\* Algorithm of pgRouting.
 
+At the moment the proprietary A\* Algorithm can handle one-directional road links whereas pgRouting can not.
+
+On the other hand pgRouting A\* Algorithm is considerable faster than the proprietary A\* Algorithm.
+
+Proprietary A\* Algorithm could be sped up considerably by implementing `fi.nls.oskari.routing.Graph` that would
+less database queries than the `fi.nls.oskari.routing.PgRoutingTableGraph` that the A\* Algorithm uses at
+the moment.
+
+Currently the routing algorithms route from existing node to an existing node. Start and end node are selected according to
+which node is closest to the coordinates provided. This could be improved so that routing can start from any point on
+edge and end on any point on edge.
+
 ### Miscellaneous enhancements
 
 * Database enhancements needed for routing
@@ -120,7 +132,9 @@ Backend module that implements proprietary A\* Algorithm and supports A\* Algori
 ## TODO:
 
 * Allow definition of road link table name in configuration
+* Improve A\* Algorithm performance by reducing the amount of database queries
 * Allow routing from anywhere on edge (currently route calculation always starts and ends from/to the closest node)
+* Support one-way road links with pgRouting algorithms
 * Support for remaining pgRouting algorithms
 * Allow dynamic variables in route calculation (such as traffic conditions)
 
