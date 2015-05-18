@@ -82,7 +82,7 @@ public class AStarAlgorithm {
     private static Double calculatePriority(Double tentativeG, Double lon, Double lat, Double endLon, Double endLat) {
         Double lonDiff = lon - endLon;
         Double latDiff = lat - endLat;
-        Double distanceBetweenNodes = Math.sqrt((lonDiff * lonDiff) + (latDiff + latDiff));
+        Double distanceBetweenNodes = Math.sqrt((lonDiff * lonDiff) + (latDiff * latDiff));
         return tentativeG + distanceBetweenNodes;
     }
 }
